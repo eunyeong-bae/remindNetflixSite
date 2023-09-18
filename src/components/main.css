@@ -57,6 +57,27 @@
     background-color: #b02a37;
 }
 
+/****** banner ******/
+.banner{
+    height: 600px;
+    display: flex;
+    align-items: center;
+    border: 1px solid red;
+}
+.banner::before {
+    width: 100%;
+    height: 600px;
+    position:absolute;
+    left: 0;
+    content: '';
+    background: linear-gradient(to right, black, transparent);
+}
+.banner-info{
+    width: 40%;
+    margin-left: 30px;
+    z-index: 1;
+}
+
 @media screen and (max-width:1400px) {
     .nav-list{
         border: 1px solid pink;
