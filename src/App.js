@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Movies from './pages/Movies';
 import MovieDetail from './pages/MovieDetail';
+import Navbar from './components/Navbar';
 /**
  * 1. 3개 페이지 필요(홈페이지, movie 홈페이지, movieDetail 페이지)
  * 2. 홈페이지에서 배너 볼 수 있음
@@ -22,11 +23,16 @@ import MovieDetail from './pages/MovieDetail';
 
 function App() {
   return (
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/movies' element={<Movies />} />
-      <Route path='/movies/:id' element={<MovieDetail />} />
-    </Routes>
+    <div className='app-container'>
+      <div className='main-wrap'>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/movies' element={<Movies />} />
+          <Route path='/movies/:id' element={<MovieDetail />} />
+        </Routes>
+      </div>
+    </div>
   );
 }
 
