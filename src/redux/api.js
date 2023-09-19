@@ -5,7 +5,8 @@ const api = axios.create({
     Headers: {"Content-type":"application/json"}
 });
 
-// Add a request interceptor
+/**
+ * // Add a request interceptor
 api.interceptors.request.use(function (config) {
     // Do something before request is sent
     console.log("request start 보내고싶은 requst 가 어떻게 생겼는지", config)
@@ -28,5 +29,7 @@ api.interceptors.response.use(function (response) {
     console.log("response error", error)
     return Promise.reject(error);
   });
+
+ */
 
 export default api;

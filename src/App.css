@@ -1,7 +1,7 @@
 body{
     margin: 0;
     color: white;
-    background-color: #1b1b1d;
+    background-color: black;
 }
 div{
     box-sizing: border-box;
@@ -17,7 +17,7 @@ p{
 .main-wrap{
     width: 90%;
     height: 100%;
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
 }
 
