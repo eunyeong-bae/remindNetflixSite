@@ -2,6 +2,7 @@ import React from 'react';
 import './main.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import MovieCard from './MovieCard';
 
 const Carousel = ({title, data}) => {
     console.log('real',data)
@@ -21,16 +22,7 @@ const Carousel = ({title, data}) => {
             <div className='d-flex slide-item-box'>
                 { data.results && data.results.map(item => {
                     return (
-                        <div
-                            className='slide-item'
-                            style={{
-                                backgroundImage:
-                                    "url(" + 
-                                    `https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${item.poster_path}`
-                                    +")"
-                            }}
-                        >
-                        </div>
+                        <MovieCard item={item} />
                     )
                 })}
             </div>
