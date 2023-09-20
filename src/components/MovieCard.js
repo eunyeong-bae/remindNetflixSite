@@ -18,13 +18,13 @@ const MovieCard = ({item}) => {
         }}
     >
         <div className='d-flex overlay'>
-            <div>
+            <div className='movie-info'>
                 <p>{item.title}</p>
                 <div className='d-flex'>
                     { item.genre_ids.map(id => <Badge id={id}/> )}
                 </div>
             </div>
-            <div className='d-flex icon-container'>
+            <div className='d-flex'>
                 <div className='icon-box'>
                     <FontAwesomeIcon style={{background:'#ffc107'}} icon={faImdb} size='xl'/>
                     <span>{item.vote_average}</span>
