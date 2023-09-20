@@ -58,14 +58,6 @@
     background-color: #b02a37;
 }
 
-/****** Home Area ******/
-.movie-container{
-    height: calc(100% - 90%);
-}
-.movie-box{
-    height: calc(100% - 600px);
-}
-
 /****** banner ******/
 .banner{
     height: 600px;
@@ -206,19 +198,6 @@
 }
 .slide-item:hover .overlay {
     opacity: 1;
-}
-
-/****** Badge Area ******/
-.badge-box{
-    width: auto;
-    padding: 5px 10px;
-    font-size: 13px;
-    font-weight: 600;
-    text-align: center;
-    margin-right: 5px;
-    color: white;
-    border-radius: 10px;
-    background-color: #dc3545;
 }
 
 

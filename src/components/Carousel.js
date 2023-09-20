@@ -38,7 +38,6 @@ const Carousel = ({title, data}) => {
         }
     };
 
-    // console.log('real',data)
   return (
     <div className='d-flex slide-container'>
       <h1>{title}</h1>      

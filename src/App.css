@@ -21,6 +21,19 @@ p{
     margin: 0 auto;
 }
 
+/****** Badge Area ******/
+.badge-box{
+    width: auto;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    margin-right: 5px;
+    color: white;
+    border-radius: 10px;
+    background-color: #dc3545;
+}
+
 
 @media screen and (max-width:1400px) {
     .main-wrap{

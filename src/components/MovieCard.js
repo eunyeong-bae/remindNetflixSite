@@ -1,12 +1,16 @@
 import React from 'react';
 import './main.css';
 import Badge from './Badge';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImdb} from '@fortawesome/free-brands-svg-icons';
-import { faUsers} from '@fortawesome/free-solid-svg-icons';
-
+import { useNavigate } from 'react-router-dom';
+import MovieSubInfo from './MovieSubInfo';
 
 const MovieCard = ({item}) => {
+    const navigate = useNavigate();
+
+    const goToMovieDetailPg = () => {
+        navigate(`/movies/${item.id}`);  
+    };
+
   return (
     <div
         className='slide-item'
@@ -16,6 +20,7 @@ const MovieCard = ({item}) => {
                 `https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${item.poster_path}`
                 +")"
         }}
+        onClick={goToMovieDetailPg}
     >
         <div className='d-flex overlay'>
             <div className='movie-info'>
@@ -24,19 +29,7 @@ const MovieCard = ({item}) => {
                     { item.genre_ids.map(id => <Badge id={id}/> )}
                 </div>
             </div>
-            <div className='d-flex'>
-                <div className='icon-box'>
-                    <FontAwesomeIcon style={{background:'#ffc107'}} icon={faImdb} size='xl'/>
-                    <span>{item.vote_average}</span>
-                </div>
-                <div className='icon-box'>
-                    <FontAwesomeIcon style={{color:'#6c757d'}} icon={faUsers} size="lg" />
-                    <span>{item.vote_average}</span>
-                </div>
-                <div className='span-box'>
-                    <span>{item.adult ? '청불' : 'Under 18'}</span>
-                </div>
-            </div>
+            <MovieSubInfo item={item}/>
         </div>
     </div>
   )

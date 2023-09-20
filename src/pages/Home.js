@@ -3,7 +3,8 @@ import { movieAction } from '../redux/actions/movieAction';
 import { useDispatch, useSelector } from 'react-redux';
 import Banner from '../components/Banner';
 import Carousel from '../components/Carousel';
-import ClipLoader from "react-spinners/ClipLoader";
+import './main.css';
+import Loading from '../components/Loading';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -16,13 +17,7 @@ const Home = () => {
   return (
     <>
       { loading 
-          ? <ClipLoader
-              color='#dc3545'
-              loading={loading}
-              size={150}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
+          ? <Loading loading={loading}/>
           : <div className='movie-container'>
               <div style={{position:'relative'}}>
                 <Banner movie={popularMovies.results[0]}/>

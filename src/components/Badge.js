@@ -6,9 +6,9 @@ const Badge = ({id}) => {
     const {genreList} = useSelector(state => state.movie);
 
     return (
-    <div className='badge-box'>
-      {genreList.find( item => item.id === id).name}
-    </div>
+      <div className='badge-box' key={id}>
+        {genreList.find( item => item.id === id).name}
+      </div>
   )
 }
 
