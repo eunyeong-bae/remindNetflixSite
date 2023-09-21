@@ -25,6 +25,9 @@ p{
 /****** Badge Area ******/
 .badge-box{
     width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 5px 10px;
     font-size: 13px;
     font-weight: 600;
