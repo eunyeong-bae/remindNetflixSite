@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { movieAction } from '../redux/actions/movieAction';
 import { useDispatch, useSelector } from 'react-redux';
-import Banner from '../components/Banner';
 import Carousel from '../components/Carousel';
 import './main.css';
 import Loading from '../components/Loading';
@@ -19,9 +18,6 @@ const Home = () => {
       { loading 
           ? <Loading loading={loading}/>
           : <div className='movie-container'>
-              <div style={{position:'relative'}}>
-                <Banner movie={popularMovies.results[0]}/>
-              </div>
               <div className='home-movie-box'>
                 <Carousel title='Top Popular Movies' data={popularMovies} />
                 <Carousel title='Top Rated Movies' data={topRatedMovies} />

@@ -24,7 +24,7 @@ h1, p {
 .movie-detail-container{
     width: 100%;
     height: 100%;
-    padding-top: 20px;
+    padding-top: 30px;
 }
 .movie-info-wrap{
     width: 100%;
@@ -33,6 +33,7 @@ h1, p {
     width: 50%;
     display: flex;
     justify-content: center;
+    align-self: center;
 }
 .movie-bg-img{
     width: 300px;
@@ -93,6 +94,7 @@ h1, p {
 }
 .etc-item{
     display: flex;
+    align-items: center;
     padding: 10px 0;
 }
 .badge-box{
@@ -104,10 +106,21 @@ h1, p {
 .etc-item p{
     letter-spacing: -1.2px;
 }
+.movie-video{
+    display: flex;
+    color: #fe4536;
+    padding: 25px 10px;
+    cursor: pointer;
+}
+.movie-video p {
+    font-size: 16px;
+    margin-left: 7px;
+}
 
 .sub-btn-wrap{
     width: 100%;
     padding: 30px;
+    margin-top: 20px;
     /* border: 1px solid; */
 }
 .sub-btn-wrap button {
@@ -129,6 +142,7 @@ h1, p {
 .movie-review-wrap{
     width: 100%;
     padding: 20px;
+    margin-top: 20px;
     border: 2px solid;
 }
 .review-container{
@@ -179,6 +193,7 @@ h1, p {
     justify-content: center;
     flex-wrap: wrap;
     padding: 20px 0;
+    margin-top: 20px;
     border: 2px solid;
 }
 .recommand-list{
@@ -191,6 +206,31 @@ h1, p {
 }
 .overlay {
     padding: 0;
+}
+
+/***** Movide Detail Video Modal *****/
+.modal-wrap{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    opacity: 1;
+    background-color: #747691;
+}
+.video-modal{
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.close-btn{
+    width: 100%;
+    text-align: right;
+    padding: 10px;
+    color: #b02a37;
 }
 
 

@@ -6,6 +6,10 @@ import { movieAction } from '../redux/actions/movieAction';
 import { useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
 import MovieCard from '../components/MovieCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVideo, faRectangleXmark } from '@fortawesome/free-solid-svg-icons';
+import YouTube from 'react-youtube';
+
 
 const MovieDetail = () => {
   const {id} = useParams();
@@ -14,8 +18,9 @@ const MovieDetail = () => {
   const [badgeList, setBadgeList] = useState([]);
   const [btnType, setBtnType] = useState('review');
   const [reviewMoreBtn, setReviewMoreBtn] = useState(false);
-
-  const { detailMovie,movieReviews,recommandations, loading} = useSelector(state => state.movie);
+  const [videoInfo, setVideoInfo] = useState(false);
+ 
+  const { detailMovie,movieReviews,recommandations,movieVideo,loading} = useSelector(state => state.movie);
 
   useEffect(() => {
     dispatch(movieAction.getMovieDetails(id));
@@ -30,13 +35,17 @@ const MovieDetail = () => {
     ])
   }, [detailMovie])
 
-  console.log(recommandations)
+  useEffect(() => {
+    console.log(videoInfo)
+  }, [videoInfo])
+  // console.log(movieVideo)
 
   return (
     <>
     { loading
        ?  <Loading loading={loading} />
-       : <div className='movie-detail-container'>
+       : <div style={{position:'relative'}}>
+          <div className='movie-detail-container'>
             <div>
               <div className='d-flex movie-info-wrap'>
                 {/* movie poster box */}
@@ -51,44 +60,49 @@ const MovieDetail = () => {
                       }}
                     > 
                   </div>
+                </div>
+                {/* movie detail description */}
+                <MovieDetailDescriptionComponent datas={[detailMovie, badgeList,videoInfo, setVideoInfo]}/>
               </div>
-              {/* movie detail description */}
-              <MovieDetailDescriptionComponent datas={[detailMovie, badgeList]}/>
+
+              <div className='sub-btn-wrap'>
+                <button 
+                  className={btnType === 'review' ? 'click' : ''}
+                  onClick={()=>setBtnType('review')}
+                >
+                  REVIEWS ({movieReviews.length})
+                </button>
+                <button 
+                  className={btnType !== 'review' ? 'click' : ''}
+                  onClick={()=>setBtnType('recommand')}
+                >
+                  RELATED MOVIES ({recommandations.length})
+                </button>
+              </div>
             </div>
 
-            <div className='sub-btn-wrap'>
-              <button 
-                className={btnType === 'review' ? 'click' : ''}
-                onClick={()=>setBtnType('review')}
-              >
-                REVIEWS ({movieReviews.length})
-              </button>
-              <button 
-                className={btnType !== 'review' ? 'click' : ''}
-                onClick={()=>setBtnType('recommand')}
-              >
-                RELATED MOVIES ({recommandations.length})
-              </button>
-            </div>
+            {/* movie review area */}
+            { btnType === 'review' && 
+              <MovieReviewComponent datas={[movieReviews, btnType, reviewMoreBtn, setReviewMoreBtn]}/>
+            }
+
+            {/* movie recommand list area */}
+            { btnType !== 'review' && 
+              <div className='movie-recommand-list-wrap'>
+                { recommandations && btnType === 'recommand'
+                  && recommandations.map(item => {
+                  return (
+                    <div className='recommand-list' key={item.id}>
+                      <MovieCard item={item}/>
+                    </div>
+                  )
+                })}
+              </div>
+            }
           </div>
-
-
-          {/* movie review area */}
-          { btnType === 'review' && 
-            <MovieReviewComponent datas={[movieReviews, btnType, reviewMoreBtn, setReviewMoreBtn]}/>
-          }
-
-          {/* movie recommand list area */}
-          { btnType !== 'review' && 
-            <div className='movie-recommand-list-wrap'>
-              { recommandations && btnType === 'recommand'
-                && recommandations.map(item => {
-                return (
-                  <div className='recommand-list'>
-                    <MovieCard item={item}/>
-                  </div>
-                )
-              })}
+          { videoInfo && 
+            <div className='modal-wrap'>
+              <VideoModal data={[movieVideo, videoInfo, setVideoInfo]} />
             </div>
           }
         </div>
@@ -100,7 +114,7 @@ const MovieDetail = () => {
 export default MovieDetail;
 
 function MovieDetailDescriptionComponent({datas}) {
-  const [detailMovie, badgeList] = datas;
+  const [detailMovie, badgeList, videoInfo, setVideoInfo] = datas;
 
   return(
     <div className='d-flex movie-info'>
@@ -131,6 +145,11 @@ function MovieDetailDescriptionComponent({datas}) {
           )
         })}
       </div>
+
+      <div className='movie-video' onClick={() => setVideoInfo(!videoInfo)}>
+        <FontAwesomeIcon icon={faVideo} />
+        <p>Watch Trailer</p>
+      </div>
     </div>
   )
 }
@@ -138,13 +157,12 @@ function MovieDetailDescriptionComponent({datas}) {
 function MovieReviewComponent({datas}) {
   const [movieReviews, btnType, reviewMoreBtn, setReviewMoreBtn] = datas;
   
-
   return (
     <div className='movie-review-wrap'>
       { movieReviews && btnType === 'review'
         && movieReviews.map(item => {
         return (
-          <div className={reviewMoreBtn ? 'review-container close' : 'review-container'}>
+          <div key={item.id} className={reviewMoreBtn ? 'review-container close' : 'review-container'}>
             <div className='d-flex review-author'>
               <p>{item.author}</p>
               <p>{item.created_at}</p>
@@ -163,6 +181,36 @@ function MovieReviewComponent({datas}) {
           </div>
         )
       })}
+    </div>
+  )
+}
+
+function VideoModal({data}) {
+  const [movieVideo, videoInfo, setVideoInfo] = data;
+  const opts = {
+    height: '390',
+    width: '640',
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+
+  function _onReady(event) {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  }
+
+  return (
+    <div className='d-flex video-modal'>
+      <div className='close-btn' onClick={() => setVideoInfo(!videoInfo)}>
+        <FontAwesomeIcon icon={faRectangleXmark} size='2xl'/>
+      </div>
+      <YouTube 
+        videoId={movieVideo && movieVideo[0].key} 
+        opts={opts} 
+        onReady={_onReady}
+      />
     </div>
   )
 }

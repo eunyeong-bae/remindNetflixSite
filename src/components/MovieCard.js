@@ -9,6 +9,7 @@ const MovieCard = ({item}) => {
 
     const goToMovieDetailPg = () => {
         navigate(`/movies/${item.id}`);  
+        window.location.reload(); //새로고침
     };
 
   return (
@@ -29,7 +30,7 @@ const MovieCard = ({item}) => {
                     <div></div>
                 </div>
                 <div className='d-flex genre-div'>
-                    { item.genre_ids.map(id => <Badge id={id}/> )}
+                    { item.genre_ids.map(id => <Badge key={id} id={id}/> )}
                 </div>
             </div>
             <MovieSubInfo item={item}/>

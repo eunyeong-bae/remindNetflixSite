@@ -49,14 +49,22 @@ function getMovieDetails(movieId) {
             const movieDetailApi = api.get(`/movie/${movieId}?api_key=${API_KEY}&language=en-US`);
             const movieReviewApi = api.get(`/movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=1`)
             const recommandationApi = api.get(`/movie/${movieId}/recommendations?api_key=${API_KEY}&language=en-US&page=1`)
-
-            let [genreList, detailMovie, movieReviews, recommandations] = await Promise.all([
+            const movieVideoApi = api.get(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`)
+            
+            let [ genreList, 
+                  detailMovie, 
+                  movieReviews, 
+                  recommandations, 
+                  movieVideo
+                ] = await Promise.all([
                     genreApi, 
                     movieDetailApi,
                     movieReviewApi,
-                    recommandationApi
+                    recommandationApi,
+                    movieVideoApi
                 ]);
-    
+                
+                console.log(movieVideo)
             dispatch({
                 type:"GET_MOVIE_DETAIL",
                 payload: {
@@ -64,6 +72,7 @@ function getMovieDetails(movieId) {
                     genreList: genreList.data.genres,
                     movieReviews: movieReviews.data.results,
                     recommandations: recommandations.data.results,
+                    movieVideo: movieVideo.data.results,
                 }
             })
         }catch(e) {

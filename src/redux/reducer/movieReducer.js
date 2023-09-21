@@ -6,6 +6,8 @@ let initalState = {
     detailMovie: {},
     movieReviews: [],
     recommandations: [],
+    movieVideo:[],
+    banner: false, //false : home, true: movie Detail page
     loading: true,
 }
 function movieReducer(state=initalState, action) {
@@ -20,6 +22,7 @@ function movieReducer(state=initalState, action) {
                 topRatedMovies: payload.topRatedMovies,
                 upcomingMovies: payload.upcomingMovies,
                 genreList: payload.genreList,
+                banner: false,
                 loading: false,
             }
         case "GET_MOVIE_DETAIL":
@@ -28,6 +31,8 @@ function movieReducer(state=initalState, action) {
                 genreList: payload.genreList,
                 movieReviews: payload.movieReviews,
                 recommandations: payload.recommandations,
+                movieVideo: payload.movieVideo,
+                banner: true,
                 loading: false
             }
         case "GET_MOVIES_FAILURE":

@@ -58,7 +58,7 @@ const Carousel = ({title, data}) => {
         </div>
         <div className='slide-wrap'>
             <div className='d-flex slide-item-box'>
-                { data.results.map(item => {
+                { data.results && data.results.map(item => {
                     return (
                         <MovieCard item={item} />
                     )

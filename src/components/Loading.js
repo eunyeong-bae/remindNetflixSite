@@ -3,13 +3,15 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const Loading = ({loading}) => {
   return (
-    <ClipLoader
+    <div style={{width:'100%',height:'100%',display:'flex', alignItems:'center', justifyContent:'center'}}>
+      <ClipLoader
         color='#dc3545'
         loading={loading}
-        size={150}
+        size={250}
         aria-label="Loading Spinner"
         data-testid="loader"
-    />
+      />
+    </div>
   )
 }
 

@@ -4,6 +4,9 @@ import Home from './pages/Home';
 import Movies from './pages/Movies';
 import MovieDetail from './pages/MovieDetail';
 import Navbar from './components/Navbar';
+import Banner from './components/Banner';
+import { useSelector } from 'react-redux';
+
 /**
  * 1. 3개 페이지 필요(홈페이지, movie 홈페이지, movieDetail 페이지)
  * 2. 홈페이지에서 배너 볼 수 있음
@@ -22,10 +25,14 @@ import Navbar from './components/Navbar';
 */
 
 function App() {
+  const { popularMovies} = useSelector(state => state.movie);
   return (
     <div className='app-container'>
+      <Navbar />
+      <div style={{position:'relative'}}>
+        <Banner/>
+      </div>
       <div className='main-wrap'>
-        <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/movies' element={<Movies />} />
