@@ -14,9 +14,9 @@ h1, p {
 
 /****** Home Area ******/
 .movie-container{
-    height: calc(100% - 90%);
+    height: calc(100% - 90px);
 }
-.movie-box{
+.home-movie-box{
     height: calc(100% - 600px);
 }
 

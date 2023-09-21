@@ -22,7 +22,7 @@ const Home = () => {
               <div style={{position:'relative'}}>
                 <Banner movie={popularMovies.results[0]}/>
               </div>
-              <div className='movie-box'>
+              <div className='home-movie-box'>
                 <Carousel title='Top Popular Movies' data={popularMovies} />
                 <Carousel title='Top Rated Movies' data={topRatedMovies} />
                 <Carousel title='Upcoming Movies' data={upcomingMovies} />
