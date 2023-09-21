@@ -7,9 +7,9 @@ import { useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
 import MovieCard from '../components/MovieCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVideo, faRectangleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faVideo, faRectangleXmark, faHeartCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faFaceKissWinkHeart } from '@fortawesome/free-regular-svg-icons';
 import YouTube from 'react-youtube';
-
 
 const MovieDetail = () => {
   const {id} = useParams();
@@ -149,6 +149,11 @@ function MovieDetailDescriptionComponent({datas}) {
       <div className='movie-video' onClick={() => setVideoInfo(!videoInfo)}>
         <FontAwesomeIcon icon={faVideo} />
         <p>Watch Trailer</p>
+      </div>
+
+      <div className='movie-great' onClick={() => alert('click!')}>
+        {/* <FontAwesomeIcon icon={faFaceKissWinkHeart} size="2xl" /> */}
+        <FontAwesomeIcon icon={faHeartCircleCheck} size="2xl" />
       </div>
     </div>
   )
