@@ -6,7 +6,7 @@ import { faUsers} from '@fortawesome/free-solid-svg-icons';
 
 const MovieSubInfo = ({item}) => {
   return (
-    <div className='d-flex'>
+    <div className='d-flex movie-sub-div'>
         <div className='icon-box'>
             <FontAwesomeIcon style={{background:'#ffc107'}} icon={faImdb} size='xl'/>
             <span>{item.vote_average}</span>

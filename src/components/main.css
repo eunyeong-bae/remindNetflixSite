@@ -155,7 +155,6 @@
     transition: all 1s;
     background-size: cover;
     background-position: center;
-    border: 1px solid red;
     z-index: 2;
 }
 .overlay{
@@ -174,6 +173,10 @@
 }
 .movie-info{
     padding: 0 10px;
+}
+
+.movie-sub-div{
+    padding: 0 20px;
 }
 .icon-box {
     width: 28%;

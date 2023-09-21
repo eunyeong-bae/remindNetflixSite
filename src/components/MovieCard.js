@@ -24,8 +24,11 @@ const MovieCard = ({item}) => {
     >
         <div className='d-flex overlay'>
             <div className='movie-info'>
-                <p>{item.title}</p>
-                <div className='d-flex'>
+                <div className='title-div'>
+                    <p>{item.title}</p>
+                    <div></div>
+                </div>
+                <div className='d-flex genre-div'>
                     { item.genre_ids.map(id => <Badge id={id}/> )}
                 </div>
             </div>
