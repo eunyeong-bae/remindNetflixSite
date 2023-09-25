@@ -138,7 +138,7 @@ function MovieDetailDescriptionComponent({datas}) {
       <div className='movie-etc'>
         { badgeList && badgeList.map(item => {
           return (
-            <div className='etc-item'>
+            <div className='etc-item' key={item.id}>
               <div className='badge-box'>{item.title}</div>
               <p>${item.value}</p>
             </div>

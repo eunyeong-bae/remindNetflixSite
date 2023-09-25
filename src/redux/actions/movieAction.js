@@ -64,7 +64,7 @@ function getMovieDetails(movieId) {
                     movieVideoApi
                 ]);
                 
-                console.log(movieVideo)
+                // console.log(movieVideo)
             dispatch({
                 type:"GET_MOVIE_DETAIL",
                 payload: {

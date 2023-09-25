@@ -25,13 +25,16 @@ import { useSelector } from 'react-redux';
 */
 
 function App() {
-  const { popularMovies} = useSelector(state => state.movie);
+  const {currentPage} = useSelector(state => state.movie);
+  
   return (
     <div className='app-container'>
       <Navbar />
-      <div style={{position:'relative'}}>
-        <Banner/>
-      </div>
+      { currentPage !== 'Movie' && 
+        <div style={{position:'relative'}}>
+          <Banner/>
+        </div>
+      }
       <div className='main-wrap'>
         <Routes>
           <Route path='/' element={<Home />} />

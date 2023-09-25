@@ -8,9 +8,14 @@
     max-width: 1200px;
     margin: 0 auto;
 }
+div{
+    box-sizing: border-box;
+}
+
 h1, p {
     margin: 0;
 }
+
 
 /****** Home Area ******/
 .movie-container{
@@ -19,6 +24,7 @@ h1, p {
 .home-movie-box{
     height: calc(100% - 600px);
 }
+
 
 /****** Movie Detail Area ******/
 .movie-detail-container{
@@ -245,6 +251,73 @@ h1, p {
     text-align: right;
     padding: 10px;
     color: #b02a37;
+}
+
+/*****************************************************************/
+
+/****** Movie Page Area ******/
+.movie-page-container{
+    width: 100%;
+    height: auto;
+    padding: 20px 0;
+    border: 1px solid red;
+}
+.movie-filter-box{
+    width: 40%;
+    height: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    /* border: 1px solid blue; */
+}
+.movie-list-box{
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 60%;
+    height: 100%;
+    /* border: 1px solid orange; */
+}
+.list-wrap{
+    width: 48%;
+    height: 500px;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10px;
+    margin:5px;
+    /* background: linear-gradient(to top, black); */
+    /* border: 1px solid; */
+}
+.title-wrap{
+    align-items: center;
+    /* border: 1px solid; */
+}
+.poster-box{
+    width: 60px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 8px;
+    /* border: 1px solid; */
+}
+.title-wrap h2 {
+    margin: 5px 0;
+    font-weight: 400;
+}
+.title-wrap p{
+    margin: 0;
+    font-size: 14px;
+    color: #9ac7fa;
+}
+.badge-wrap{
+    width: 70%;
+    flex-wrap: nowrap;
+    padding: 10px 0;
+}
+.list-overview{
+    width: 50%;
+    border: 1px solid;
+    font-size: 14px;
 }
 
 

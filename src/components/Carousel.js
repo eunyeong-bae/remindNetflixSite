@@ -60,7 +60,7 @@ const Carousel = ({title, data}) => {
             <div className='d-flex slide-item-box'>
                 { data.results && data.results.map(item => {
                     return (
-                        <MovieCard item={item} />
+                        <MovieCard key={item.id} item={item} />
                     )
                 })}
             </div>

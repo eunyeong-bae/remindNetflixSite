@@ -9,6 +9,7 @@ let initalState = {
     movieVideo:[],
     banner: false, //false : home, true: movie Detail page
     loading: true,
+    currentPage: null,
 }
 function movieReducer(state=initalState, action) {
     let {type, payload} = action;
@@ -16,6 +17,8 @@ function movieReducer(state=initalState, action) {
     switch(type) {
         case "GET_MOVIES_REQUEST":
             return {...state, loading:true}
+        case "SET_CURRENT_PAGE":
+            return {...state, currentPage: payload.currentPage}
         case "GET_MOVIE_SUCCESS":
             return {...state,
                 popularMovies: payload.popularMovies,
@@ -24,6 +27,7 @@ function movieReducer(state=initalState, action) {
                 genreList: payload.genreList,
                 banner: false,
                 loading: false,
+                currentPage: null,
             }
         case "GET_MOVIE_DETAIL":
             return {...state, 
@@ -33,7 +37,8 @@ function movieReducer(state=initalState, action) {
                 recommandations: payload.recommandations,
                 movieVideo: payload.movieVideo,
                 banner: true,
-                loading: false
+                loading: false,
+                currentPage: null,
             }
         case "GET_MOVIES_FAILURE":
             return {...state, loading:false}
