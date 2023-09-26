@@ -103,7 +103,7 @@ h1, p {
     align-items: center;
     padding: 10px 0;
 }
-.badge-box{
+.etc-item .badge-box{
     font-weight: 400;
     width: 100px;
     font-size: 15px;
@@ -260,7 +260,7 @@ h1, p {
     width: 100%;
     height: auto;
     padding: 20px 0;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 .movie-filter-box{
     width: 40%;
@@ -285,7 +285,8 @@ h1, p {
     background-size: cover;
     background-position: center;
     padding: 25px;
-    margin:5px;
+    margin:5px 5px 15px 5px;
+    box-shadow: -1px -1px 8px #fcd0bf;
     /* border: 1px solid; */
 }
 .list-wrap::before {
@@ -325,20 +326,25 @@ h1, p {
     color: #9ac7fa;
 }
 .badge-wrap{
-    width: 70%;
-    flex-wrap: nowrap;
-    padding: 20px 0 0 0;
+    width: 100%;
+    flex-wrap: wrap;
+    padding-top: 10px;
+    /* border: 1px solid; */
+}
+.badge-wrap .badge-box{
+    margin: 5px 2px 2px 2px;
+    /* border: 1px solid red; */
 }
 .list-overview{
     width: 50%;
-    height: 220px;
+    height: 170px;
     font-size: 15px;
     letter-spacing: 0.5px;
     margin-top: 15px;
     word-break: break-all; 
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 13;
+    -webkit-line-clamp: 10;
     -webkit-box-orient: vertical;
     overflow: hidden;
     /* border: 1px solid; */

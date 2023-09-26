@@ -66,7 +66,7 @@ function getMovieDetails(movieId) {
                 
                 // console.log(movieVideo)
             dispatch({
-                type:"GET_MOVIE_DETAIL",
+                type:"GET_MOVIE_DETAIL_SUCCESS",
                 payload: {
                     detailMovie: detailMovie.data,
                     genreList: genreList.data.genres,
@@ -83,9 +83,107 @@ function getMovieDetails(movieId) {
     }
 }
 
+function getSearchMovies(query){
+    return async(dispatch, getState) => {
+        try{
+            dispatch({
+                type:"GET_MOVIES_REQUEST"
+            });
+
+            const searchMovieLists = await api.get(`/search/movie?api_key=${API_KEY}&query=${query}`)
+                .then((res) => {
+                    return res.data;
+                })
+                .catch(e => {
+                    console.log(e);
+                    dispatch({
+                        type:"GET_MOVIES_FAILURE"
+                    });
+                })
+
+            dispatch({
+                type:"GET_SEARCH_MOVIE_SUCCESS",
+                payload:{
+                    searchMovies: searchMovieLists
+                }
+            })
+            // console.log("searchMovieLists:",searchMovieLists)
+        }
+        catch(e) {
+            console.log(e);
+            dispatch({
+                type:"GET_MOVIES_FAILURE"
+            });
+        }
+    }
+}
+
+function getSortFilterMovie(sortType, query){
+    return async(dispatch, getState) => {
+        try{
+            dispatch({
+                type:"GET_MOVIES_REQUEST"
+            });
+
+            let sort_by = '';
+            let with_genres = '';
+            let year = '';
+            let vote_average_gte = '';
+
+            switch(sortType) {
+                case "sort_by":
+                    sort_by = query;
+                    break;
+                case "with_genres":
+                    with_genres = query;
+                    break;
+                case "year":
+                    year = 1990 + Number(query);
+                    break;
+                case "score":
+                    vote_average_gte = query;
+                    break;
+                default:
+                    break;
+            }
+            // console.log("check sort Type: ", sortType, year)
+            const discoverMovies = await api.get(`/discover/movie?api_key=${API_KEY}&language=en-US&page=1&sort_by=${sort_by}&vote_average.gte=${vote_average_gte}&with_genres=${with_genres}&year=${year}`)
+                .then((res) => {
+                    return res.data;
+                })
+                .catch(e => {
+                    console.log(e);
+                    dispatch({
+                        type:"GET_MOVIES_FAILURE"
+                    })
+                })
+            
+                // console.log(sortType," : ", discoverMovies)
+            dispatch({
+                type:"GET_SORT_FILTER_MOVIE_SUCCESS",
+                payload: {
+                    searchMovies: discoverMovies,
+                    filterValue: {
+                        year: [year, 2023],
+                        score: [vote_average_gte, 10]
+                    }
+                }
+            });
+            
+                
+        }catch(e){
+            dispatch({
+                type:"GET_MOVIES_FAILURE"
+            })
+        }
+    }
+}
+
 export const movieAction = { 
     getMovies,
     getMovieDetails,
+    getSearchMovies,
+    getSortFilterMovie,
 }
 
 /**
