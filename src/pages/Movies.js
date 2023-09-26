@@ -39,37 +39,39 @@ const Movies = () => {
                     style={{
                       backgroundImage:
                       "url(" + 
-                      `https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/${item.backdrop_path}`
+                      `https://image.tmdb.org/t/p/original///${item.backdrop_path}`
                       +")"
                     }}
                   >
-                    <div>
-                      <div className='d-flex title-wrap'>
-                          <div
-                            className='poster-box'
-                            style={{                            
-                              backgroundImage:
-                                  "url(" + 
-                                  `https://image.tmdb.org/t/p/original///${item.poster_path}`
-                                  +")"
-                            }}
-                          >                          
-                          </div>
-                          
-                          <div>
-                            <h2>{item.title}</h2>
-                            <p>{item.release_date.split('-')[0]}</p>
-                          </div>
+                    <div className='d-flex contents-box'>
+                      <div>
+                        <div className='d-flex title-wrap'>
+                            <div
+                              className='poster-box'
+                              style={{                            
+                                backgroundImage:
+                                    "url(" + 
+                                    `https://image.tmdb.org/t/p/original///${item.poster_path}`
+                                    +")"
+                              }}
+                            >                          
+                            </div>
+                            
+                            <div>
+                              <h2>{item.title}</h2>
+                              <p>{item.release_date.split('-')[0]}</p>
+                            </div>
+                        </div>
+                        <div className='d-flex badge-wrap'>
+                          { item.genre_ids.map(id => <Badge id={id}/>)}
+                        </div>
+                        <p className='list-overview'>{item.overview}</p>
                       </div>
-                      <div className='d-flex badge-wrap'>
-                        { item.genre_ids.map(id => <Badge id={id}/>)}
+
+
+                      <div className='list-sub-info'>
+                        <MovieSubInfo item={item}/>
                       </div>
-                    </div>
-
-                    <p className='list-overview'>{item.overview}</p>
-
-                    <div>
-                      <MovieSubInfo item={item}/>
                     </div>
                   </div>
                 )

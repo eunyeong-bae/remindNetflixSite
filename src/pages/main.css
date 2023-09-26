@@ -278,15 +278,30 @@ h1, p {
     /* border: 1px solid orange; */
 }
 .list-wrap{
+    position: relative;
     width: 48%;
     height: 500px;
     flex-direction: column;
-    background-repeat: no-repeat;
     background-size: cover;
-    padding: 10px;
+    background-position: center;
+    padding: 25px;
     margin:5px;
-    /* background: linear-gradient(to top, black); */
     /* border: 1px solid; */
+}
+.list-wrap::before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0;
+    left: 0;
+    content: '';
+    background: linear-gradient(to right, black,  transparent);
+}
+.contents-box{
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 3;
 }
 .title-wrap{
     align-items: center;
@@ -312,14 +327,33 @@ h1, p {
 .badge-wrap{
     width: 70%;
     flex-wrap: nowrap;
-    padding: 10px 0;
+    padding: 20px 0 0 0;
 }
 .list-overview{
     width: 50%;
-    border: 1px solid;
-    font-size: 14px;
+    height: 220px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    margin-top: 15px;
+    word-break: break-all; 
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 13;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* border: 1px solid; */
 }
-
+.list-sub-info{
+    /* border: 1px solid; */
+}
+.list-sub-info .movie-sub-div{
+    padding: 0;
+}
+.list-sub-info .icon-box {
+    display: flex;
+    align-items: center;
+    /* border: 1px solid red; */
+}
 
 @media screen and (max-width:1200px) {
     
