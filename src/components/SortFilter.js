@@ -13,7 +13,7 @@ const SortFilter = () => {
   const [ filterBtn, setFilterBtn] = useState(false);
 
   const handleSortType = (type) => {
-    console.log("sort", type)
+    // console.log("sort", type)
     if(type === 'Sort'){
         setSortBtn(!sortBtn)
     } else {
@@ -118,13 +118,16 @@ function FilterBox({genreList, filterMovieFunc, filterValue}) {
     const dispatch = useDispatch();
 
     const handleInputRange = (type, e) => {
+        const targetValue = Number(e.target.value);
+        
         if(e.target.value !== "0") {
-            var gradient_value = 100 / e.target.attributes.max.value;
-            e.target.style.background = 'linear-gradient(to right, #ececec 0%, #ececec '+gradient_value * e.target.value +'%, rgb(199, 86, 97) ' +gradient_value *  e.target.value + '%, rgb(199, 86, 97) 100%)';
+            var gradient_value = type==='year' ? 100 : 10 / Number(e.target.attributes.max.value);
+            e.target.style.background = `linear-gradient(to right, #ececec 0%, #ececec ${gradient_value * targetValue}%, rgb(199, 86, 97) ${gradient_value * targetValue}%, rgb(199, 86, 97) 100%) !important`;
             
-            dispatch(movieAction.getSortFilterMovie(type === 'year' ? 'year' : "score", e.target.value))
+            dispatch(movieAction.getSortFilterMovie(type === 'year' ? 'year' : "score", targetValue))
         }
     }
+
     return (
         <div className='d-flex filter-wrap'>
             <div className='d-flex year-filter'>
@@ -137,7 +140,7 @@ function FilterBox({genreList, filterMovieFunc, filterValue}) {
                     <h2>{year[1]}</h2>
                 </div>
                 <div className='inputRange'>
-                    <input id="rangeInput" className="rangeInput" max="23" min="0" value={0} step="1" type="range" onChange={e => handleInputRange('year', e)} />
+                    <input id="rangeInput" className="rangeInputYear" max="2023" min="1990" value={year[0]} step="1" type="range" onChange={e => handleInputRange('year', e)} />
                 </div>
             </div>
             <div className='common-border'></div>
@@ -152,7 +155,7 @@ function FilterBox({genreList, filterMovieFunc, filterValue}) {
                     <h2>{score[1]}</h2>
                 </div>
                 <div className='inputRange'>
-                    <input id="rangeInput" className="rangeInput" max="10" min="0" value={score[0]} step="1" type="range" onChange={e => handleInputRange('score', e)} />
+                    <input id="rangeInput" className="rangeInputScore" max="10" min="0" value={score[0] === '' ? 0 : score[0]} step="1" type="range" onChange={e => handleInputRange('score', e)} />
                 </div>
             </div>
             <div className='common-border'></div>

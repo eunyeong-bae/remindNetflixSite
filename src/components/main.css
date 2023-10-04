@@ -342,11 +342,22 @@
     padding: 10px;
     /* border: 1px solid;s */
 }
-.rangeInput{
+.rangeInputYear{
     width: 90%;
     height: 10px;
+    background: linear-gradient(to right, #c75661 0%, #c75661 100%);
+    /* background: #c75661; */
+    border-radius: 8px;
+    transition: background 450ms ease-in;
+    outline: none;
+    -webkit-appearance: none;
+}
+.rangeInputScore{
+    width: 90%;
+    height: 10px;
+    background: linear-gradient(to right, #c75661 0%, #c75661 100%);
     /* background: linear-gradient(to right, #ececec 0%, #ececec 50%, #c75661 50%, #c75661 100%); */
-    background: #c75661;
+    /* background: #c75661; */
     border-radius: 8px;
     transition: background 450ms ease-in;
     outline: none;
