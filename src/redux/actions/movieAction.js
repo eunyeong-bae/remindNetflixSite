@@ -1,4 +1,4 @@
-import api from "../api"
+import api from "../api";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -125,6 +125,8 @@ function getSortFilterMovie(sortType, query){
                 type:"GET_MOVIES_REQUEST"
             });
 
+            console.log("yaer or score :",query)
+
             let sort_by = '';
             let with_genres = '';
             let year = '';
@@ -138,7 +140,7 @@ function getSortFilterMovie(sortType, query){
                     with_genres = query;
                     break;
                 case "year":
-                    year = 1990 + Number(query);
+                    year = query;
                     break;
                 case "score":
                     vote_average_gte = query;
@@ -164,8 +166,8 @@ function getSortFilterMovie(sortType, query){
                 payload: {
                     searchMovies: discoverMovies,
                     filterValue: {
-                        year: [year, 2023],
-                        score: [vote_average_gte, 10]
+                        year: sortType === 'year' && [query, 2023],
+                        score: sortType === 'score' && [vote_average_gte, 10]
                     }
                 }
             });

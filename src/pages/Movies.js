@@ -53,7 +53,7 @@ export default Movies;
 function MovieList({Movies}) {
   return (
     <>
-      { Movies.results.map(item => {
+      { Movies.results && Movies.results.map(item => {
         return (
           <div 
             key={item.id}

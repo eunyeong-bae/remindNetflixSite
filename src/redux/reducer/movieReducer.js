@@ -12,8 +12,8 @@ let initalState = {
     currentPage: null,
     searchMovies:{},
     filterValue: {
-        year:[1990, 2023],
-        score:[0, 10]
+        year:[0, 2023],
+        score:[0, 10],
     }
 }
 function movieReducer(state=initalState, action) {
@@ -24,7 +24,9 @@ function movieReducer(state=initalState, action) {
         case "GET_MOVIES_REQUEST":
             return {...state, loading:true}
         case "SET_CURRENT_PAGE":
-            return {...state, currentPage: payload.currentPage}
+            return {...state, 
+                currentPage: payload.currentPage
+            }
         case "GET_MOVIE_SUCCESS":
             return {...state,
                 popularMovies: payload.popularMovies,
@@ -51,15 +53,16 @@ function movieReducer(state=initalState, action) {
         case "GET_SEARCH_MOVIE_SUCCESS":
             return {...state, 
                 searchMovies: payload.searchMovies, 
-                loading:false
+                loading:false,
             }
         case "GET_SORT_FILTER_MOVIE_SUCCESS":
             return {...state, 
                 searchMovies: payload.searchMovies,
                 filterValue: {
-                    year: payload.filterValue.year,
-                    score: payload.filterValue.score,
-                }
+                    year: payload.filterValue.year ? payload.filterValue.year : [...state.filterValue.year],
+                    score: payload.filterValue.score ? payload.filterValue.score : [...state.filterValue.score],
+                },
+                loading:false,
             }
         case "GET_MOVIES_FAILURE":
             return {...state, loading:false}
