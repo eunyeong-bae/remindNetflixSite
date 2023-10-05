@@ -7,13 +7,14 @@ import MovieSubInfo from '../components/MovieSubInfo';
 import Badge from '../components/Badge';
 import { movieAction } from '../redux/actions/movieAction';
 import { useNavigate } from 'react-router-dom';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 const Movies = () => {
   const dispatch = useDispatch();
 
-  const {popularMovies, searchMovies, loading} = useSelector(state => state.movie);
-  console.log("movies: ",popularMovies, searchMovies)
+  const {activePage, popularMovies, searchMovies, loading} = useSelector(state => state.movie);
+  console.log("movies: ",popularMovies, searchMovies, activePage)
 
   function isObjEmpty(obj) {
     return Object.keys(obj).length === 0;
@@ -21,9 +22,21 @@ const Movies = () => {
   const isSearchMovieListEmpty = isObjEmpty(searchMovies);
   // console.log('result:', isSearchMovieListEmpty)
 
+  const pagiNationFunc = (pageNum) => {
+    if(pageNum === 'prev'){
+      dispatch(movieAction.getMovies(activePage - 1));
+    } else if(pageNum === 'next') {
+      dispatch(movieAction.getMovies(activePage + 1));
+    } else if(pageNum === 20) {
+      dispatch(movieAction.getMovies(20));
+    } else {
+      dispatch(movieAction.getMovies(pageNum));
+    }
+  };
+
   useEffect(() => {
     if(isObjEmpty(popularMovies) && isObjEmpty(searchMovies)){
-      dispatch(movieAction.getMovies());
+      dispatch(movieAction.getMovies( activePage));
     }
   }, []);
 
@@ -51,9 +64,7 @@ const Movies = () => {
                   :  <MovieList Movies={searchMovies}/>
                 }
               </div>
-              <div className='d-flex movie-pageNation-box'>
-                dd
-              </div>
+              <PagiNation activePage={activePage} pagiNationFunc={pagiNationFunc}/>
             </div>
           </div>
       }
@@ -120,5 +131,51 @@ function MovieList({Movies}) {
         )
       })}
     </>
+  )
+}
+
+function PagiNation({activePage, pagiNationFunc}) {
+  const pageNumberBox = () => {
+    const result = [];
+    
+    if( activePage <= 16){
+      for(let i=activePage; i<=activePage+2; i++){
+        result.push(<div className='pagiNation-box page-number' onClick={()=>pagiNationFunc(i)}>{i}</div>)
+      }
+    } else if(activePage > 16) {
+      for(let i=activePage; i<=20; i++){
+        result.push(<div className='pagiNation-box page-number' onClick={()=>pagiNationFunc(i)}>{i}</div>)
+      }
+    }
+    return result;
+  };
+
+  return (
+    <div className='d-flex movie-pagiNation-box'>
+      { activePage !== 1 &&
+        <div className='pagiNation-box page-moveBtn' onClick={()=>pagiNationFunc('prev')}>
+          <FontAwesomeIcon icon={faChevronLeft}/>
+        </div>
+      }
+      <div className='d-flex'>
+        <div className='d-flex'>{pageNumberBox()}</div>
+        {/* <div className='pagiNation-box page-number' onClick={()=>pagiNationFunc(activePage)}>{activePage}</div>
+        <div className='pagiNation-box page-number' onClick={()=>pagiNationFunc(activePage+1)}>{activePage+1}</div>
+        <div className='pagiNation-box page-number' onClick={()=>pagiNationFunc(activePage+2)}>{activePage+2}</div> */}
+        { activePage <= 16 &&
+          <>
+            <div className='pagiNation-box page-number'>
+              <FontAwesomeIcon icon={faEllipsis} />
+            </div>
+            <div className='pagiNation-box page-number' onClick={()=>pagiNationFunc(20)}>20</div>
+          </>
+        }
+      </div>
+      { activePage !== 20 &&
+        <div className='pagiNation-box page-moveBtn' onClick={()=>pagiNationFunc('next')}>
+          <FontAwesomeIcon icon={faChevronRight}/>
+        </div>
+      }
+    </div>
   )
 }

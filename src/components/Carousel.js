@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './main.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import MovieCard from './MovieCard';
 
 const Carousel = ({title, data}) => {

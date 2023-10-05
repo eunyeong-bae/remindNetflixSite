@@ -1,4 +1,5 @@
 let initalState = {
+    activePage: 1,
     popularMovies: {},
     topRatedMovies: {},
     upcomingMovies: {},
@@ -18,7 +19,7 @@ let initalState = {
 }
 function movieReducer(state=initalState, action) {
     let {type, payload} = action;
-    console.log("filtervalue: ", payload)
+    // console.log("filtervalue: ", payload)
 
     switch(type) {
         case "GET_MOVIES_REQUEST":
@@ -37,6 +38,7 @@ function movieReducer(state=initalState, action) {
                 loading: false,
                 currentPage: null,
                 searchMovies: {},
+                activePage: payload.activePage,
             }
         case "GET_MOVIE_DETAIL_SUCCESS":
             return {...state, 

@@ -2,13 +2,15 @@ import api from "../api";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-function getMovies() {
+//home 화면 캐러셀에 뿌려줄 movie lists 호출
+function getMovies( activePage) {
     return async(dispatch, getState) => {
         try{
             dispatch({
                 type:"GET_MOVIES_REQUEST",
             })
-            const popularMovieApi = api.get(`/movie/popular?api_key=${API_KEY}&language=en-US&page=1`);
+
+            const popularMovieApi = api.get(`/movie/popular?api_key=${API_KEY}&language=en-US&page=${activePage}`);
             const topRatedMovieApi = api.get(`/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`);;
             const upComingMovieApi = api.get(`/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`);;
             const genreApi = api.get(`/genre/movie/list?api_key=${API_KEY}&language=en`);
@@ -27,6 +29,7 @@ function getMovies() {
                     topRatedMovies: topRatedMovies.data,
                     upcomingMovies: upcomingMovies.data,
                     genreList: genreList.data.genres,
+                    activePage: activePage,
                 }
             })
         } catch(e) {
@@ -38,6 +41,7 @@ function getMovies() {
     }
 }
 
+//movie 선택 시, 선택된 movie 디테일 페이지 정보
 function getMovieDetails(movieId) {
     return async(dispatch, getState) => {
         try{
@@ -83,6 +87,7 @@ function getMovieDetails(movieId) {
     }
 }
 
+//movie 검색
 function getSearchMovies(query){
     return async(dispatch, getState) => {
         try{
@@ -118,6 +123,7 @@ function getSearchMovies(query){
     }
 }
 
+//movie filter, sort 리스트 받아오는 api
 function getSortFilterMovie(sortType, query){
     return async(dispatch, getState) => {
         try{
@@ -125,7 +131,7 @@ function getSortFilterMovie(sortType, query){
                 type:"GET_MOVIES_REQUEST"
             });
 
-            console.log("yaer or score :",query)
+            // console.log("yaer or score :",query)
 
             let sort_by = '';
             let with_genres = '';

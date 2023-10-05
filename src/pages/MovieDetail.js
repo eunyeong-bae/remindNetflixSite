@@ -35,11 +35,6 @@ const MovieDetail = () => {
     ])
   }, [detailMovie])
 
-  useEffect(() => {
-    console.log(videoInfo)
-  }, [videoInfo])
-  // console.log(movieVideo)
-
   return (
     <>
     { loading

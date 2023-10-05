@@ -20,12 +20,6 @@ const SortFilter = () => {
         setFilterBtn(!filterBtn)
     }
   };
-
-  const searchMovie = (searchType, query) => {
-    console.log(searchType, query)
-    dispatch(movieAction.getSearchMovies(searchType, query));
-    window.scrollTo(0, 0);
-  };
   
   const filterMovieFunc = (searchType, query) => { 
     // console.log("button click :",searchType, query)

@@ -7,10 +7,10 @@ import Loading from '../components/Loading';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { popularMovies, topRatedMovies, upcomingMovies, loading} = useSelector(state => state.movie);
+  const { activePage, popularMovies, topRatedMovies, upcomingMovies, loading} = useSelector(state => state.movie);
 
   useEffect(() => {
-    dispatch(movieAction.getMovies());
+    dispatch(movieAction.getMovies( activePage));
   }, []);
 
   return (
