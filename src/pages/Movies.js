@@ -5,28 +5,36 @@ import './main.css';
 import SortFilter from '../components/SortFilter';
 import MovieSubInfo from '../components/MovieSubInfo';
 import Badge from '../components/Badge';
+import { movieAction } from '../redux/actions/movieAction';
+import { useNavigate } from 'react-router-dom';
 
 
 const Movies = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({
-      type:"SET_CURRENT_PAGE",
-      payload: {
-        currentPage: 'Movie'
-      }
-    })
-  }, [])
-
   const {popularMovies, searchMovies, loading} = useSelector(state => state.movie);
-  // console.log("movies: ",popularMovies)
+  console.log("movies: ",popularMovies, searchMovies)
 
   function isObjEmpty(obj) {
     return Object.keys(obj).length === 0;
   }
   const isSearchMovieListEmpty = isObjEmpty(searchMovies);
-  console.log('result:', isSearchMovieListEmpty)
+  // console.log('result:', isSearchMovieListEmpty)
+
+  useEffect(() => {
+    if(isObjEmpty(popularMovies) && isObjEmpty(searchMovies)){
+      dispatch(movieAction.getMovies());
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch({
+      type:"SET_CURRENT_PAGE",
+      payload:{
+        currentPage: 'Movie'
+      }
+    })
+  }, [popularMovies]);
 
   return (
     <>
@@ -36,11 +44,16 @@ const Movies = () => {
             <div className='movie-filter-box'>
               <SortFilter />
             </div>
-            <div className='d-flex movie-list-box'>
-              { isSearchMovieListEmpty
-                ?  <MovieList Movies={popularMovies}/>
-                :  <MovieList Movies={searchMovies}/>
-              }
+            <div className='d-flex movie-container'>
+              <div className='d-flex movie-list-box'>
+                { isSearchMovieListEmpty
+                  ?  <MovieList Movies={popularMovies}/>
+                  :  <MovieList Movies={searchMovies}/>
+                }
+              </div>
+              <div className='d-flex movie-pageNation-box'>
+                dd
+              </div>
             </div>
           </div>
       }
@@ -51,6 +64,13 @@ const Movies = () => {
 export default Movies;
 
 function MovieList({Movies}) {
+  const navigate = useNavigate();
+
+  const goToMovieDetailPg = (id) => {
+    navigate(`/movies/${id}`);  
+    window.location.reload(); //새로고침
+  };
+
   return (
     <>
       { Movies.results && Movies.results.map(item => {
@@ -64,6 +84,7 @@ function MovieList({Movies}) {
               `https://image.tmdb.org/t/p/original///${item.backdrop_path}`
               +")"
             }}
+            onClick={() => goToMovieDetailPg(item.id)}
           >
             <div className='d-flex contents-box'>
               <div>

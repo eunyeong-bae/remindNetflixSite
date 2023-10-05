@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './main.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { movieAction } from '../redux/actions/movieAction';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const [keyword, setKeyword] = useState('');
+
+  const searchKeyDown = (e) => {
+    if(e.keyCode === 13){
+      setKeyword(e.target.value);
+
+      dispatch(movieAction.getSearchMovies(e.target.value));
+      e.target.value = '';
+      navigate('/movies');
+    }
+  };
+
+  const searchMovie = () => {
+    if(keyword !== '') {
+      dispatch(movieAction.getSearchMovies(keyword));
+      navigate('/movies');
+    }
+  }
 
   return (
     <div className='d-flex nav-container'>
@@ -21,8 +43,8 @@ const Navbar = () => {
       </div>
       
       <div className='d-flex nav-search-wrap'>
-          <input />
-          <div className='search-icon'>
+          <input type='text' placeholder='Search' onKeyDown={searchKeyDown} />
+          <div className='search-icon' onClick={searchMovie}>
             <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
           </div>
       </div>

@@ -29,18 +29,22 @@ function App() {
   
   return (
     <div className='app-container'>
-      <Navbar />
-      { currentPage !== 'Movie' && 
-        <div style={{position:'relative'}}>
-          <Banner/>
+      <div className='nav-container'>
+        <Navbar />
+      </div>
+      <div className='content-container'>
+        { currentPage !== 'Movie' && 
+          <div>
+            <Banner/>
+          </div>
+        }
+        <div className='main-wrap'>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/movies' element={<Movies />} />
+            <Route path='/movies/:id' element={<MovieDetail />} />
+          </Routes>
         </div>
-      }
-      <div className='main-wrap'>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/movies' element={<Movies />} />
-          <Route path='/movies/:id' element={<MovieDetail />} />
-        </Routes>
       </div>
     </div>
   );
