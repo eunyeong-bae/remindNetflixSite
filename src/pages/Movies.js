@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loading from '../components/Loading';
 import './main.css';
 import SortFilter from '../components/SortFilter';
-import MovieSubInfo from '../components/MovieSubInfo';
-import Badge from '../components/Badge';
 import { movieAction } from '../redux/actions/movieAction';
-import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faEllipsis } from '@fortawesome/free-solid-svg-icons'
+import MovieListCard from '../components/MovieListCard';
 
 const Movies = () => {
   const dispatch = useDispatch();
@@ -60,8 +58,8 @@ const Movies = () => {
             <div className='d-flex movie-container'>
               <div className='d-flex movie-list-box'>
                 { isSearchMovieListEmpty
-                  ?  <MovieList Movies={popularMovies}/>
-                  :  <MovieList Movies={searchMovies}/>
+                  ?  <MovieListCard Movies={popularMovies}/>
+                  :  <MovieListCard Movies={searchMovies}/>
                 }
               </div>
               <PagiNation activePage={activePage} pagiNationFunc={pagiNationFunc}/>
@@ -74,65 +72,6 @@ const Movies = () => {
 
 export default Movies;
 
-function MovieList({Movies}) {
-  const navigate = useNavigate();
-
-  const goToMovieDetailPg = (id) => {
-    navigate(`/movies/${id}`);  
-    window.location.reload(); //새로고침
-  };
-
-  return (
-    <>
-      { Movies.results && Movies.results.map(item => {
-        return (
-          <div 
-            key={item.id}
-            className='d-flex list-wrap'
-            style={{
-              backgroundImage:
-              "url(" + 
-              `https://image.tmdb.org/t/p/original///${item.backdrop_path}`
-              +")"
-            }}
-            onClick={() => goToMovieDetailPg(item.id)}
-          >
-            <div className='d-flex contents-box'>
-              <div>
-                <div className='d-flex title-wrap'>
-                    <div
-                      className='poster-box'
-                      style={{                            
-                        backgroundImage:
-                            "url(" + 
-                            `https://image.tmdb.org/t/p/original///${item.poster_path}`
-                            +")"
-                      }}
-                    >                          
-                    </div>
-                    
-                    <div>
-                      <h2>{item.title}</h2>
-                      <p>{item.release_date.split('-')[0]}</p>
-                    </div>
-                </div>
-                <div className='d-flex badge-wrap'>
-                  { item.genre_ids.map(id => <Badge id={id}/>)}
-                </div>
-                <p className='list-overview'>{item.overview}</p>
-              </div>
-
-
-              <div className='list-sub-info'>
-                <MovieSubInfo item={item}/>
-              </div>
-            </div>
-          </div>
-        )
-      })}
-    </>
-  )
-}
 
 function PagiNation({activePage, pagiNationFunc}) {
   const pageNumberBox = () => {

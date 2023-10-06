@@ -17,12 +17,10 @@ const Home = () => {
     <>
       { loading 
           ? <Loading loading={loading}/>
-          : <div className='movie-container'>
-              <div className='home-movie-box'>
-                <Carousel title='Top Popular Movies' data={popularMovies} />
-                <Carousel title='Top Rated Movies' data={topRatedMovies} />
-                <Carousel title='Upcoming Movies' data={upcomingMovies} />
-              </div>
+          : <div className='home-movie-box'>
+              <Carousel title='Top Popular Movies' data={popularMovies} />
+              <Carousel title='Top Rated Movies' data={topRatedMovies} />
+              <Carousel title='Upcoming Movies' data={upcomingMovies} />
             </div>
       }
     </>

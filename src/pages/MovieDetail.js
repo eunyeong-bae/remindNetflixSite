@@ -3,13 +3,14 @@ import './main.css';
 import MovieSubInfo from '../components/MovieSubInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { movieAction } from '../redux/actions/movieAction';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
 import MovieCard from '../components/MovieCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVideo, faRectangleXmark, faHeartCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { faFaceKissWinkHeart } from '@fortawesome/free-regular-svg-icons';
+import { faVideo, faRectangleXmark, faHeartCircleCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import YouTube from 'react-youtube';
+import { faFileVideo } from '@fortawesome/free-regular-svg-icons';
+
 
 const MovieDetail = () => {
   const {id} = useParams();
@@ -19,6 +20,7 @@ const MovieDetail = () => {
   const [btnType, setBtnType] = useState('review');
   const [reviewMoreBtn, setReviewMoreBtn] = useState(false);
   const [videoInfo, setVideoInfo] = useState(false);
+  const [favoriteModal, setFavoriteModal] = useState(false);
  
   const { detailMovie,movieReviews,recommandations,movieVideo,loading} = useSelector(state => state.movie);
 
@@ -57,7 +59,7 @@ const MovieDetail = () => {
                   </div>
                 </div>
                 {/* movie detail description */}
-                <MovieDetailDescriptionComponent datas={[detailMovie, badgeList,videoInfo, setVideoInfo]}/>
+                <MovieDetailDescriptionComponent datas={[detailMovie, badgeList,videoInfo, setVideoInfo,favoriteModal, setFavoriteModal]}/>
               </div>
 
               <div className='sub-btn-wrap'>
@@ -100,6 +102,13 @@ const MovieDetail = () => {
               <VideoModal data={[movieVideo, videoInfo, setVideoInfo]} />
             </div>
           }
+          { favoriteModal && 
+            <div className='modal-wrap'>
+              <div className='d-flex' style={{alignItems:'center', justifyContent:'center',border:'1px solid red', padding:'50px 0', height:'750px', marginTop:'50px'}}>
+                <AlertModal data={[favoriteModal, setFavoriteModal]}/>
+              </div>
+            </div>
+          }
         </div>
     }
     </>
@@ -109,7 +118,24 @@ const MovieDetail = () => {
 export default MovieDetail;
 
 function MovieDetailDescriptionComponent({datas}) {
-  const [detailMovie, badgeList, videoInfo, setVideoInfo] = datas;
+  const [ detailMovie, 
+          badgeList, 
+          videoInfo, 
+          setVideoInfo, 
+          favoriteModal, 
+          setFavoriteModal
+        ] = datas;
+  // console.log("moviedetail:", detailMovie);
+
+  const dispatch = useDispatch();
+  const setMovieFavorite = (movieData) => {
+    setFavoriteModal(!favoriteModal);
+
+    dispatch({
+      type:"SET_FAVORITE_MOVIE_SUCCESS", 
+      payload:{ favoriteMovies: movieData}
+    })
+  };
 
   return(
     <div className='d-flex movie-info'>
@@ -117,7 +143,7 @@ function MovieDetailDescriptionComponent({datas}) {
         <div className='d-flex'>
           { detailMovie.genres && detailMovie.genres.map(item => {
             return (
-              <div className='badge-box' key={item.id}>{item.name}</div>
+              <div className='badge-box' key={item.id+item.name}>{item.name}</div>
             )
           })}
         </div>
@@ -146,7 +172,7 @@ function MovieDetailDescriptionComponent({datas}) {
         <p>Watch Trailer</p>
       </div>
 
-      <div className='movie-great' onClick={() => alert('click!')}>
+      <div className='movie-great' onClick={() => setMovieFavorite(detailMovie)}>
         {/* <FontAwesomeIcon icon={faFaceKissWinkHeart} size="2xl" /> */}
         <FontAwesomeIcon icon={faHeartCircleCheck} size="2xl" />
       </div>
@@ -211,6 +237,32 @@ function VideoModal({data}) {
         opts={opts} 
         onReady={_onReady}
       />
+    </div>
+  )
+}
+
+function AlertModal({data}) {
+  const [favoriteModal, setFavoriteModal] = data;
+  const navigate = useNavigate();
+
+  return (
+    <div className='d-flex video-modal alert-modal'>
+      <div className='d-flex alert-close' onClick={() => setFavoriteModal(!favoriteModal)}>
+        <FontAwesomeIcon icon={faXmark} size='xl' />
+      </div>
+      <div className='d-flex alert-content'>
+        <div className='d-flex fileVideo-box'>
+            <FontAwesomeIcon icon={faFileVideo} size="2xl"/>
+        </div>
+        <h3>좋아하는 영화 목록에 추가되었습니다.</h3>
+        <p>
+          좋아하는 영화 목록은 
+          <button className='alert-btn' onClick={() => navigate('/favorite')}>
+            My Favorite
+          </button>
+          에서 확인할 수 있습니다.
+        </p>
+      </div>
     </div>
   )
 }

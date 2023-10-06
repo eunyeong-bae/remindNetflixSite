@@ -6,6 +6,7 @@ import MovieDetail from './pages/MovieDetail';
 import Navbar from './components/Navbar';
 import Banner from './components/Banner';
 import { useSelector } from 'react-redux';
+import MovieFavorite from './pages/MovieFavorite';
 
 /**
  * 1. 3개 페이지 필요(홈페이지, movie 홈페이지, movieDetail 페이지)
@@ -43,6 +44,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/movies' element={<Movies />} />
             <Route path='/movies/:id' element={<MovieDetail />} />
+            <Route path='/favorite' element={<MovieFavorite />}/>
           </Routes>
         </div>
       </div>

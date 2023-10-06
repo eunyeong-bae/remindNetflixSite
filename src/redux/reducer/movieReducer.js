@@ -15,8 +15,13 @@ let initalState = {
     filterValue: {
         year:[0, 2023],
         score:[0, 10],
-    }
+    },
+    favoriteMovies:{
+        currentPg: 'Favorite',
+        results: [],
+    },
 }
+
 function movieReducer(state=initalState, action) {
     let {type, payload} = action;
     // console.log("filtervalue: ", payload)
@@ -39,6 +44,7 @@ function movieReducer(state=initalState, action) {
                 currentPage: null,
                 searchMovies: {},
                 activePage: payload.activePage,
+                // favoriteMovies:{...state.favoriteMovies},
             }
         case "GET_MOVIE_DETAIL_SUCCESS":
             return {...state, 
@@ -51,11 +57,13 @@ function movieReducer(state=initalState, action) {
                 loading: false,
                 currentPage: null,
                 searchMovies: {},
+                // favoriteMovies:{...state.favoriteMovies},
             }
         case "GET_SEARCH_MOVIE_SUCCESS":
             return {...state, 
                 searchMovies: payload.searchMovies, 
                 loading:false,
+                // favoriteMovies:{...state.favoriteMovies},
             }
         case "GET_SORT_FILTER_MOVIE_SUCCESS":
             return {...state, 
@@ -65,6 +73,17 @@ function movieReducer(state=initalState, action) {
                     score: payload.filterValue.score ? payload.filterValue.score : [...state.filterValue.score],
                 },
                 loading:false,
+                // favoriteMovies:{...state.favoriteMovies},
+            }
+        case "SET_FAVORITE_MOVIE_SUCCESS":
+            return {...state, 
+                favoriteMovies: {
+                    ...state.favoriteMovies,
+                    results: [
+                        ...state.favoriteMovies.results, 
+                        payload.favoriteMovies
+                    ]
+                }
             }
         case "GET_MOVIES_FAILURE":
             return {...state, loading:false}
