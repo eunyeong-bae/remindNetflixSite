@@ -4,36 +4,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import MovieCard from './MovieCard';
 
-const Carousel = ({title, data}) => {
-    const [page, setPage] = useState(1);
+let currentPageValue = 0;
 
+const Carousel = ({title, data, slide}) => {
+    const [page, setPage] = useState(1);
+    
     const handleMovieList = (type) => {
-        const slideItemBoxElement = document.querySelector('.slide-item-box');
+        const slideItemBoxElement = document.querySelector(`.${slide}`);
         
-        if(page === 1) {
-            if(type === 'next'){
+        if(type === 'next'){
+            if(page === 1 || page < data.results.length/4){
+                currentPageValue = -1200 * page;
                 setPage(page + 1);
-                slideItemBoxElement.style.transform = `translateX(${-1200 * page}px)`
-            } else {
-                setPage(Math.floor(data.results.length/4));
-                slideItemBoxElement.style.transform = `translateX(${-1200 * (Math.floor(data.results.length/4) -1)}px)`
-            }
-        }
-        else if( page < data.results.length/4) {
-            if(type === 'next'){
-                setPage(page + 1);
-                slideItemBoxElement.style.transform = `translateX(${-1200 * page}px)`
-            } else {
-                setPage(page - 1);
-                slideItemBoxElement.style.transform = `translateX(${-1200 * (page - 1)}px)`
-            }
-        } else {
-            if(type === 'next'){
+                slideItemBoxElement.style.transform = `translateX(${currentPageValue}px)`;
+            } else if( page === data.results.length/4){
                 setPage(1);
-                slideItemBoxElement.style.transform = 'translateX(0px)';
-            } else {
-                setPage(page - 2);
-                slideItemBoxElement.style.transform = `translateX(${-1200 * (page-2)}px)`
+                slideItemBoxElement.style.transform = `translateX(0px)`;
+            }
+        } else if (type === 'prev'){
+            if(page === 1) {
+                currentPageValue = -1200 * (data.results.length/4 - 1);
+                setPage(data.results.length/4);
+                slideItemBoxElement.style.transform = `translateX(${currentPageValue}px)`;
+            } else if (page !== 1 && page <= data.results.length/4){
+                currentPageValue =currentPageValue + 1200;
+                setPage(page - 1);
+                slideItemBoxElement.style.transform = `translateX(${currentPageValue}px)`;
             }
         }
     };
@@ -57,7 +53,7 @@ const Carousel = ({title, data}) => {
             </div>
         </div>
         <div className='slide-wrap'>
-            <div className='d-flex slide-item-box'>
+            <div className={`d-flex slide-item-box ${slide}`}>
                 { data.results && data.results.map(item => {
                     return (
                         <MovieCard key={item.id} item={item} />

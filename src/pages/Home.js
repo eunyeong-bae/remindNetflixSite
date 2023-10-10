@@ -18,9 +18,9 @@ const Home = () => {
       { loading 
           ? <Loading loading={loading}/>
           : <div className='home-movie-box'>
-              <Carousel title='Top Popular Movies' data={popularMovies} />
-              <Carousel title='Top Rated Movies' data={topRatedMovies} />
-              <Carousel title='Upcoming Movies' data={upcomingMovies} />
+              <Carousel title='Top Popular Movies' data={popularMovies} slide='Popular'/>
+              <Carousel title='Top Rated Movies' data={topRatedMovies} slide='TopRated'/>
+              <Carousel title='Upcoming Movies' data={upcomingMovies} slide='Upcoming'/>
             </div>
       }
     </>
