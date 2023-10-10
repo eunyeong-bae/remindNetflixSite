@@ -444,7 +444,7 @@ input[type=range]::-webkit-slider-thumb {
         width: 500vw;
     }
     .slide-item{
-        border: 3px solid rgb(0, 153, 255);
+        /* border: 3px solid rgb(0, 153, 255); */
     }
 }
 
@@ -456,7 +456,7 @@ input[type=range]::-webkit-slider-thumb {
         width: 700vw;
     }
     .slide-item{
-        border: 3px solid rgb(0, 255, 55);
+        /* border: 3px solid rgb(0, 255, 55); */
     }
 }
 @media screen and (max-width:700px) {
@@ -464,6 +464,6 @@ input[type=range]::-webkit-slider-thumb {
         width: 900vw;
     }
     .slide-item{
-        border: 3px solid rgb(255, 0, 179);
+        /* border: 3px solid rgb(255, 0, 179); */
     }
 }
