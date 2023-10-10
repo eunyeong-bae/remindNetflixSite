@@ -9,7 +9,7 @@ const MovieListCard = ({Movies}) => {
 
     const goToMovieDetailPg = (id) => {
       navigate(`/movies/${id}`);  
-      window.location.reload(); //새로고침
+      // window.location.reload(); //새로고침
     };
     return (
         <>

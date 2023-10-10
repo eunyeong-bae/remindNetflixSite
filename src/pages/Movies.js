@@ -12,13 +12,11 @@ const Movies = () => {
   const dispatch = useDispatch();
 
   const {activePage, popularMovies, searchMovies, loading} = useSelector(state => state.movie);
-  console.log("movies: ",popularMovies, searchMovies, activePage)
 
   function isObjEmpty(obj) {
     return Object.keys(obj).length === 0;
   }
   const isSearchMovieListEmpty = isObjEmpty(searchMovies);
-  // console.log('result:', isSearchMovieListEmpty)
 
   const pagiNationFunc = (pageNum) => {
     if(pageNum === 'prev'){

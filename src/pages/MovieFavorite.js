@@ -10,15 +10,12 @@ const MovieFavorite = () => {
   const {favoriteMovies} = useSelector(state => state.movie);
 
   const height = (window.innerHeight || document.body.clientHeight) - 200;
-
-  console.log("favorite: ", favoriteMovies);
+  // console.log("favorite: ", favoriteMovies, popularMovies, searchMovies);
 
   function isArrayEmpty(arr){
     return arr.results.length === 0;
   };
   const isMovieFavoriteListEmpty = isArrayEmpty(favoriteMovies);
-
-  console.log("arrayt:", isMovieFavoriteListEmpty)
 
   useEffect(()=>{
     dispatch({

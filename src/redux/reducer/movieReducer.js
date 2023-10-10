@@ -44,7 +44,6 @@ function movieReducer(state=initalState, action) {
                 currentPage: null,
                 searchMovies: {},
                 activePage: payload.activePage,
-                // favoriteMovies:{...state.favoriteMovies},
             }
         case "GET_MOVIE_DETAIL_SUCCESS":
             return {...state, 
@@ -57,13 +56,11 @@ function movieReducer(state=initalState, action) {
                 loading: false,
                 currentPage: null,
                 searchMovies: {},
-                // favoriteMovies:{...state.favoriteMovies},
             }
         case "GET_SEARCH_MOVIE_SUCCESS":
             return {...state, 
                 searchMovies: payload.searchMovies, 
                 loading:false,
-                // favoriteMovies:{...state.favoriteMovies},
             }
         case "GET_SORT_FILTER_MOVIE_SUCCESS":
             return {...state, 
@@ -73,7 +70,6 @@ function movieReducer(state=initalState, action) {
                     score: payload.filterValue.score ? payload.filterValue.score : [...state.filterValue.score],
                 },
                 loading:false,
-                // favoriteMovies:{...state.favoriteMovies},
             }
         case "SET_FAVORITE_MOVIE_SUCCESS":
             return {...state, 
