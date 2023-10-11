@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './main.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass,faBars } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { movieAction } from '../redux/actions/movieAction';
 
-const Navbar = () => {
+const Navbar = ({data}) => {
+  const [isBarMenuClicked, setIsBarMenuClicked] = data;
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
@@ -27,18 +29,23 @@ const Navbar = () => {
       dispatch(movieAction.getSearchMovies(keyword));
       navigate('/movies');
     }
-  }
+  };
 
   return (
     <div className='d-flex nav-container'>
       <div className='d-flex nav-list-wrap'>
-        <div className='nav-logo' onClick={() => navigate('/')}>
-          <img src='https://images.ctfassets.net/y2ske730sjqp/1aONibCke6niZhgPxuiilC/2c401b05a07288746ddf3bd3943fbc76/BrandAssets_Logos_01-Wordmark.jpg?w=940' />
+        <div className='d-flex nav-bars-box' onClick={() => setIsBarMenuClicked(!isBarMenuClicked)}>
+          <FontAwesomeIcon icon={faBars} />
         </div>
-        <div className='d-flex nav-list'>
-          <Link to='/' className='nav-link'>Home</Link>
-          <Link to='/movies' className='nav-link'>Movie</Link>
-          <Link to='/favorite' className='nav-link'>My Favorite</Link>
+        <div className='d-flex nav-row-menu-box'>
+          <div className='nav-logo' onClick={() => navigate('/')}>
+            <img src='https://images.ctfassets.net/y2ske730sjqp/1aONibCke6niZhgPxuiilC/2c401b05a07288746ddf3bd3943fbc76/BrandAssets_Logos_01-Wordmark.jpg?w=940' />
+          </div>
+          <div className='d-flex nav-list'>
+            <Link to='/' className='nav-link'>Home</Link>
+            <Link to='/movies' className='nav-link'>Movie</Link>
+            <Link to='/favorite' className='nav-link'>My Favorite</Link>
+          </div>
         </div>
       </div>
       

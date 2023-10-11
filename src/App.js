@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import Movies from './pages/Movies';
 import MovieDetail from './pages/MovieDetail';
@@ -7,6 +7,10 @@ import Navbar from './components/Navbar';
 import Banner from './components/Banner';
 import { useSelector } from 'react-redux';
 import MovieFavorite from './pages/MovieFavorite';
+import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
 
 /**
  * 1. 3개 페이지 필요(홈페이지, movie 홈페이지, movieDetail 페이지)
@@ -27,11 +31,23 @@ import MovieFavorite from './pages/MovieFavorite';
 
 function App() {
   const {currentPage} = useSelector(state => state.movie);
+
+  const [ isBarMenuClicked, setIsBarMenuClicked] = useState(false);
   
   return (
     <div className='app-container'>
       <div className='nav-container'>
-        <Navbar />
+        <Navbar data={[isBarMenuClicked, setIsBarMenuClicked]}/>
+        { isBarMenuClicked &&
+          <div className='d-flex parent-nav-list' onClick={() => setIsBarMenuClicked(!isBarMenuClicked)}>
+            <div className='nav-Xmark'>
+              <FontAwesomeIcon icon={faXmark} size='xl' />
+            </div>
+            <Link to='/' className='link'>Home</Link>
+            <Link to='/movies' className='link'>Movie</Link>
+            <Link to='/favorite' className='link'>My Favorite</Link>
+          </div>
+        }
       </div>
       <div className='content-container'>
         { currentPage !== 'Movie' && 
