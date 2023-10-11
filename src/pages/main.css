@@ -325,7 +325,7 @@ h1, p {
     margin-bottom:25px;
     box-shadow: -1px -1px 8px #fcd0bf;
     cursor: pointer;
-    transition: all 1s;
+    transition: all 0.5s;
     /* border: 1px solid; */
 }
 .list-wrap::before {

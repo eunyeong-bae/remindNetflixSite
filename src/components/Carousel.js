@@ -43,13 +43,17 @@ const Carousel = ({title, data, slide}) => {
                 className='chevron-button left'
                 onClick={() => handleMovieList('prev')}
             >
-                <FontAwesomeIcon icon={faChevronLeft} size='xl'/>
+                <div className='d-flex btn-cover'>
+                    <FontAwesomeIcon icon={faChevronLeft} size='xl'/>
+                </div>
             </div>
             <div 
                 className='chevron-button right' 
                 onClick={() => handleMovieList('next')}
             >
-                <FontAwesomeIcon icon={faChevronRight} size='xl'/>
+                <div className='d-flex btn-cover'>
+                    <FontAwesomeIcon icon={faChevronRight} size='xl'/>
+                </div>
             </div>
         </div>
         <div className='slide-wrap'>
