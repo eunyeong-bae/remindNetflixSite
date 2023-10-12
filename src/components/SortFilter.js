@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,18 +12,44 @@ const SortFilter = () => {
   const [ sortBtn, setSortBtn] = useState(false);
   const [ filterBtn, setFilterBtn] = useState(false);
 
+  const [ sortFilter, setSortFilter] = useState({
+    'success': false,
+    'sort': '',
+    'score': [0,10],
+    'genre': '',
+    'year': [0,2023],
+  });
+
+  useEffect(() => {
+    console.log("sortfilter 화면 첨 진입할 때: : ",sortFilter)
+    setSortFilter({
+        ...sortFilter,
+        'sort': filterValue.sort,
+        'score': filterValue.score,
+        'genre': filterValue.genre,
+        'year': filterValue.year,
+    });
+
+  }, []);
+
+  useEffect(() => {
+      console.log("sortfiltervalue 변경됐을 때: ",sortFilter)
+      if(sortFilter.success) {
+          console.log("소트필터 성공 : ",sortFilter)
+        dispatch( movieAction.getSortFilterMovie(sortFilter));
+    }
+  }, [sortFilter])
+
   const handleSortType = (type) => {
-    // console.log("sort", type)
     if(type === 'Sort'){
         setSortBtn(!sortBtn)
     } else {
         setFilterBtn(!filterBtn)
     }
   };
-  
-  const filterMovieFunc = (searchType, query) => { 
-    // console.log("button click :",searchType, query)
-    dispatch(movieAction.getSortFilterMovie(searchType, query));
+
+  const filterMovieFunc = (id) => {
+    setSortFilter({...sortFilter, 'success': true, 'genre': id});
     window.scrollTo(0,0);
   };
 
@@ -31,7 +57,7 @@ const SortFilter = () => {
     const select = e.target;
     const selectedOptionValue = select.options[select.selectedIndex].value;
 
-    dispatch(movieAction.getSortFilterMovie("sort_by",selectedOptionValue));
+    setSortFilter({...sortFilter, 'success': true, 'sort': selectedOptionValue});
   };
 
   return (
@@ -58,6 +84,8 @@ const SortFilter = () => {
                 genreList={genreList} 
                 filterMovieFunc={filterMovieFunc}
                 filterValue={filterValue}
+                sortFilter={sortFilter}
+                setSortFilter={setSortFilter}
             />
         }
       </div>
@@ -107,18 +135,19 @@ function SortBox({sortMovieFunc}) {
 }
 
 
-function FilterBox({genreList, filterMovieFunc, filterValue}) {
+function FilterBox({genreList, filterMovieFunc, filterValue,sortFilter, setSortFilter}) {
     const {year, score} = filterValue;
-    const dispatch = useDispatch();
 
     const handleInputRange = (type, e) => {
         const targetValue = Number(e.target.value);
         
         if(e.target.value !== "0") {
             var gradient_value = type==='year' ? 100 : 10 / Number(e.target.attributes.max.value);
-            e.target.style.background = `linear-gradient(to right, #ececec 0%, #ececec ${gradient_value * targetValue}%, rgb(199, 86, 97) ${gradient_value * targetValue}%, rgb(199, 86, 97) 100%) !important`;
+            e.target.style.backgroundColor = `linear-gradient(to right, #ececec 0%, #ececec ${gradient_value * targetValue}%, rgb(199, 86, 97) ${gradient_value * targetValue}%, rgb(199, 86, 97) 100%) !important`;
             
-            dispatch(movieAction.getSortFilterMovie(type === 'year' ? 'year' : "score", targetValue))
+            type === 'year' 
+                ? setSortFilter({...sortFilter, 'success': true, 'year': [targetValue, 2023]}) 
+                : setSortFilter({...sortFilter, 'success': true, 'score': [targetValue, 10]});
         }
     }
 
@@ -149,7 +178,7 @@ function FilterBox({genreList, filterMovieFunc, filterValue}) {
                     <h2>{score[1]}</h2>
                 </div>
                 <div className='inputRange'>
-                    <input id="rangeInput" className="rangeInputScore" max="10" min="0" value={score[0] === '' ? 0 : score[0]} step="1" type="range" onChange={e => handleInputRange('score', e)} />
+                    <input id="rangeInput" className="rangeInputScore" max="10" min="0" value={score[0]} step="1" type="range" onChange={e => handleInputRange('score', e)} />
                 </div>
             </div>
             <div className='common-border'></div>
@@ -159,7 +188,7 @@ function FilterBox({genreList, filterMovieFunc, filterValue}) {
                 <div className='genres-box'>
                     { genreList.map(item => {
                         return (
-                            <div key={item.id} className='genre' onClick={() => filterMovieFunc('with_genres',item.id)}>
+                            <div key={item.id} className='genre' onClick={() => filterMovieFunc(item.id)}>
                                 {item.name}
                             </div>
                         )

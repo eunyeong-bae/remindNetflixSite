@@ -13,8 +13,10 @@ let initalState = {
     currentPage: null,
     searchMovies:{},
     filterValue: {
-        year:[0, 2023],
+        sort: '',
         score:[0, 10],
+        genre: '',
+        year:[0, 2023],
     },
     favoriteMovies:{
         currentPg: 'Favorite',
@@ -67,8 +69,10 @@ function movieReducer(state=initalState, action) {
             return {...state, 
                 searchMovies: payload.searchMovies,
                 filterValue: {
-                    year: payload.filterValue.year ? payload.filterValue.year : [...state.filterValue.year],
-                    score: payload.filterValue.score ? payload.filterValue.score : [...state.filterValue.score],
+                    sort: payload.filterValue.sort,
+                    score: payload.filterValue.score,
+                    genre: payload.filterValue.genre,
+                    year: payload.filterValue.year,
                 },
                 loading:false,
             }

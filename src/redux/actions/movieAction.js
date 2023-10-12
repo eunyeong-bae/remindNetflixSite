@@ -124,38 +124,20 @@ function getSearchMovies(query){
 }
 
 //movie filter, sort 리스트 받아오는 api
-function getSortFilterMovie(sortType, query){
+function getSortFilterMovie(sortfilterValues){
     return async(dispatch, getState) => {
         try{
             dispatch({
                 type:"GET_MOVIES_REQUEST"
             });
 
-            // console.log("yaer or score :",query)
+            console.log(sortfilterValues)
+            const sort_by = sortfilterValues.sort === '' ? 'popularity.desc' : sortfilterValues.sort;
+            const vote_average_gte = sortfilterValues.score[0] === 0 ? undefined : sortfilterValues.score[0];
+            const with_genres = sortfilterValues.genre;
+            const year = sortfilterValues.year[0] === 0 ? undefined : sortfilterValues.year[0];
 
-            let sort_by = '';
-            let with_genres = '';
-            let year = '';
-            let vote_average_gte = '';
-
-            switch(sortType) {
-                case "sort_by":
-                    sort_by = query;
-                    break;
-                case "with_genres":
-                    with_genres = query;
-                    break;
-                case "year":
-                    year = query;
-                    break;
-                case "score":
-                    vote_average_gte = query;
-                    break;
-                default:
-                    break;
-            }
-            // console.log("check sort Type: ", sortType, year)
-            const discoverMovies = await api.get(`/discover/movie?api_key=${API_KEY}&language=en-US&page=1&sort_by=${sort_by}&vote_average.gte=${vote_average_gte}&with_genres=${with_genres}&year=${year}`)
+            const discoverMovies = await api.get(`/discover/movie?api_key=${API_KEY}&language=en-US&page=1&sort_by=${sort_by}${vote_average_gte && `&vote_average.gte=${vote_average_gte}`}&with_genres=${with_genres}${year && `&year=${year}`}`)
                 .then((res) => {
                     return res.data;
                 })
@@ -172,8 +154,10 @@ function getSortFilterMovie(sortType, query){
                 payload: {
                     searchMovies: discoverMovies,
                     filterValue: {
-                        year: sortType === 'year' && [query, 2023],
-                        score: sortType === 'score' && [vote_average_gte, 10]
+                        sort: sort_by,
+                        score: sortfilterValues.score,
+                        genre: with_genres,
+                        year: sortfilterValues.year,
                     }
                 }
             });

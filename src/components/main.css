@@ -197,7 +197,8 @@
     border-radius: 50%;
     font-size: 20px;
     background: linear-gradient(60deg,#f79533,#dc143c,#000);
-    border: 3px solid;
+    box-shadow: 1px 1px 8px #dc143c;
+    border: 1px solid #dc143c;
 }
 .right{
     right: 0;
