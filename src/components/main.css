@@ -209,6 +209,7 @@
 .slide-item-box{
     width: 100%;
     align-items: center;
+    transition: all 0.5s;
 }
 
 

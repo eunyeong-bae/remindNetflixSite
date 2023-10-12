@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
 import MovieCard from '../components/MovieCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVideo, faRectangleXmark, faHeartCircleCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faVideo, faRectangleXmark, faHeartCircleCheck, faXmark, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import YouTube from 'react-youtube';
 import { faFileVideo } from '@fortawesome/free-regular-svg-icons';
 
@@ -21,8 +21,9 @@ const MovieDetail = () => {
   const [reviewMoreBtn, setReviewMoreBtn] = useState(false);
   const [videoInfo, setVideoInfo] = useState(false);
   const [favoriteModal, setFavoriteModal] = useState(false);
+  const [favoriteAlert, setFavoriteAlert] = useState(false);
  
-  const { detailMovie,movieReviews,recommandations,movieVideo,loading} = useSelector(state => state.movie);
+  const { detailMovie,movieReviews,recommandations,movieVideo,loading,favoriteMovies} = useSelector(state => state.movie);
 
   useEffect(() => {
     dispatch(movieAction.getMovieDetails(id));
@@ -35,7 +36,15 @@ const MovieDetail = () => {
       {title: 'Release Day', value: detailMovie.release_date},
       {title: 'Time', value: detailMovie.runtime},
     ])
-  }, [detailMovie])
+  }, [detailMovie]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if(favoriteAlert){
+        setFavoriteAlert(!favoriteAlert);
+      }
+    }, 1500);
+  }, [ favoriteAlert]);
 
   return (
     <>
@@ -59,7 +68,17 @@ const MovieDetail = () => {
                   </div>
                 </div>
                 {/* movie detail description */}
-                <MovieDetailDescriptionComponent datas={[detailMovie, badgeList,videoInfo, setVideoInfo,favoriteModal, setFavoriteModal]}/>
+                <MovieDetailDescriptionComponent 
+                  datas={[ detailMovie, 
+                           badgeList,videoInfo, 
+                           setVideoInfo,
+                           favoriteModal, 
+                           setFavoriteModal,
+                           favoriteMovies,
+                           favoriteAlert, 
+                           setFavoriteAlert,
+                        ]}
+                />
               </div>
 
               <div className='sub-btn-wrap'>
@@ -102,10 +121,18 @@ const MovieDetail = () => {
               <VideoModal data={[movieVideo, videoInfo, setVideoInfo]} />
             </div>
           }
-          { favoriteModal && 
+          { favoriteModal &&
             <div className='modal-wrap'>
-              <div className='d-flex' style={{alignItems:'center', justifyContent:'center',border:'1px solid red', padding:'50px 0', height:'750px', marginTop:'50px'}}>
+              <div className='d-flex modal-content'>
                 <AlertModal data={[favoriteModal, setFavoriteModal]}/>
+              </div>
+            </div>
+          }
+          { favoriteAlert &&
+            <div className='d-flex modal-wrap alert-modal-wrap'>
+              <div className='d-flex alert-warning'>
+                <FontAwesomeIcon icon={faCircleExclamation} size="lg" />
+                <p>좋아하는 영화 목록에서 삭제되었습니다.</p>
               </div>
             </div>
           }
@@ -123,16 +150,27 @@ function MovieDetailDescriptionComponent({datas}) {
           videoInfo, 
           setVideoInfo, 
           favoriteModal, 
-          setFavoriteModal
+          setFavoriteModal,
+          favoriteMovies,
+          favoriteAlert, 
+          setFavoriteAlert,
         ] = datas;
-  // console.log("moviedetail:", detailMovie);
+
+  const currentSelectMovie = favoriteMovies?.results.filter(item => item.original_title === detailMovie.original_title);
+  const [isLiked, setIsLiked] = useState(currentSelectMovie[0]?.isLiked ? currentSelectMovie[0].isLiked : false);
+  const [ likedMovie, setLikedMovie] = useState(isLiked ? currentSelectMovie[0] : detailMovie);
 
   const dispatch = useDispatch();
   const setMovieFavorite = (movieData) => {
-    setFavoriteModal(!favoriteModal);
+    
+    movieData.isLiked = movieData?.isLiked ? !movieData.isLiked: true;
+    setIsLiked(movieData.isLiked);
+
+    setFavoriteModal(movieData.isLiked);
+    setFavoriteAlert(!movieData.isLiked);
 
     dispatch({
-      type:"SET_FAVORITE_MOVIE_SUCCESS", 
+      type: movieData.isLiked ? "SET_FAVORITE_MOVIE_SUCCESS" : "REMOVE_FAVORITE_MOVIE_SUCCESS", 
       payload:{ favoriteMovies: movieData}
     })
   };
@@ -159,7 +197,7 @@ function MovieDetailDescriptionComponent({datas}) {
       <div className='movie-etc'>
         { badgeList && badgeList.map(item => {
           return (
-            <div className='etc-item' key={item.id}>
+            <div className='etc-item' key={item.id+item.title}>
               <div className='badge-box'>{item.title}</div>
               <p>${item.value}</p>
             </div>
@@ -172,7 +210,7 @@ function MovieDetailDescriptionComponent({datas}) {
         <p>Watch Trailer</p>
       </div>
 
-      <div className='movie-great' onClick={() => setMovieFavorite(detailMovie)}>
+      <div className={`movie-great ${isLiked ? 'red' : ''}`} onClick={() => setMovieFavorite(likedMovie)}>
         {/* <FontAwesomeIcon icon={faFaceKissWinkHeart} size="2xl" /> */}
         <FontAwesomeIcon icon={faHeartCircleCheck} size="2xl" />
       </div>

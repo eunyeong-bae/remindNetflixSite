@@ -43,7 +43,7 @@ const SortFilter = () => {
             sortBtn={sortBtn}
         />
         <div className='common-border'></div>
-        {!sortBtn && <SortBox sortMovieFunc={sortMovieFunc}/>}
+        {sortBtn && <SortBox sortMovieFunc={sortMovieFunc}/>}
       </div>
 
       <div className='d-flex common-container'>
@@ -53,7 +53,7 @@ const SortFilter = () => {
             filterBtn={filterBtn}
         />
         <div className='common-border'></div>
-        {!filterBtn && 
+        {filterBtn && 
             <FilterBox 
                 genreList={genreList} 
                 filterMovieFunc={filterMovieFunc}

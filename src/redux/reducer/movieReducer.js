@@ -24,8 +24,9 @@ let initalState = {
 
 function movieReducer(state=initalState, action) {
     let {type, payload} = action;
-    // console.log("filtervalue: ", payload)
-
+    const removeFavoriteMovie = type === "REMOVE_FAVORITE_MOVIE_SUCCESS" 
+        && state.favoriteMovies.results.filter(item => JSON.stringify(item) !== JSON.stringify(payload.favoriteMovies));
+    
     switch(type) {
         case "GET_MOVIES_REQUEST":
             return {...state, loading:true}
@@ -79,6 +80,13 @@ function movieReducer(state=initalState, action) {
                         ...state.favoriteMovies.results, 
                         payload.favoriteMovies
                     ]
+                }
+            }
+        case "REMOVE_FAVORITE_MOVIE_SUCCESS":
+            return {...state,
+                favoriteMovies: {
+                    ...state.favoriteMovies,
+                    results: removeFavoriteMovie.length === 0 ? [] : removeFavoriteMovie
                 }
             }
         case "GET_MOVIES_FAILURE":

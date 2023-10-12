@@ -47,8 +47,8 @@ const MovieListCard = ({Movies}) => {
                     </div>
                     <div className='d-flex badge-wrap'>
                       { Movies.currentPg === 'Favorite'
-                       ? item.genres.map(item => <Badge id={item.id}/>)
-                       : item.genre_ids.map(id => <Badge id={id}/>)
+                       ? item.genres.map(item => <Badge key={item.id + item.name} id={item.id}/>)
+                       : item.genre_ids.map(id => <Badge key={item.id} id={id}/>)
                       }
                     </div>
                     <p className='list-overview'>{item.overview}</p>
